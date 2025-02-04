@@ -1,4 +1,6 @@
-import fetchData from "@/lib/fetchDataFromApi";
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Suspense } from "react";
 import FeaturedNav from "./FeaturedNav";
@@ -9,103 +11,96 @@ type FeaturedParams = {
   featured?: string;
 };
 
+type AllProduct = {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  oldPrice?: number;
+  categories: string[];
+  image: string[];
+  rating: number;
+  amount: number;
+  shop_category: string;
+  unit_of_measure: string;
+};
+
 const categoryMap: { [key: string]: string } = {
   gadgets: 'gadgets',
   electronics: 'gadgets',
-  medicine: 'medicine',
-  grocery: 'grocery',
   clothing: 'clothing',
-  furniture: 'furniture',
-  books: 'books',
-  beauty: 'makeup',
-  makeup: 'makeup',
+  grocery: 'grocery',
+  medicine: 'medicine',
   bags: 'bags',
-  snacks: 'grocery',
+  makeup: 'makeup',
+  books: 'books',
   bakery: 'bakery'
 };
 
-const FeaturedGrid = async ({ featured }: FeaturedParams) => {
-  try {
-    const category = categoryMap[featured || 'gadgets'] || featured;
-    const res = await fetchData.get('/products/featured', {
-      category: category
-    });
+const FeaturedProducts = ({ featured }: FeaturedParams) => {
+  const [products, setProducts] = useState<AllProduct[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    const products = res.data || [];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const activeShop = featured || "gadgets";
+        const res = await fetch(`/api/products/featured?category=${activeShop}`);
+        const data = await res.json();
+        setProducts(data || []);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchProducts();
+  }, [featured]);
+
+  if (loading) {
     return (
       <div className="grid gap-4 grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-6">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} variants="style-2" />
+        {[...Array(10)].map((_, i) => (
+          <Skeleton key={i} />
         ))}
       </div>
     );
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    return (
-      <div className="h-[40vh] flex justify-center items-center text-3xl font-semibold text-center">
-        Failed to fetch products!
-      </div>
-    );
   }
-};
 
-const FeaturedProducts = async ({ featured }: { featured?: string }) => {
-  try {
-    const activeShop = featured || "gadgets";
-    return (
-      <section className="featured-products py-10 w-full">
-        <div className="container">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-5">
-            Best sellers in{" "}
-            <Link
-              href={`/shops/${activeShop}`}
-              className="text-primary hover:underline"
-            >
-              {activeShop}
-            </Link>{" "}
-            products
-          </h1>
-          <FeaturedNav />
-          <Suspense
-            key={featured}
-            fallback={
-              <div className="grid gap-4 grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-6">
-                {[...Array(8)].map((_, index) => (
-                  <div
-                    className="p-2.5 md:p-4 rounded-lg bg-secondary"
-                    key={index}
-                  >
-                    <Skeleton className="aspect-square rounded-lg" />
-                    <Skeleton className="h-4 w-4/5 rounded-3xl mt-3" />
-                    <div className="flex justify-between items-center">
-                      <Skeleton className="h-3 w-16 rounded-3xl mt-3" />
-                      <Skeleton className="h-7 w-20 rounded-3xl mt-3" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            }
+  return (
+    <section className="featured-products py-10 w-full">
+      <div className="container">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-5">
+          Best sellers in{" "}
+          <Link
+            href={`/shops/${featured || "gadgets"}`}
+            className="text-primary hover:underline"
           >
-            <FeaturedGrid featured={featured} />
-          </Suspense>
-
-          <div className="mt-7 flex justify-center w-full">
-            <Link
-              type="button"
-              href={`/shops/${activeShop}`}
-              className="py-3 px-4 rounded-lg border bg-primary uppercase font-medium hover:bg-transparent border-primary transition-all duration-150"
-            >
-              View More
-            </Link>
-          </div>
+            {featured || "gadgets"}
+          </Link>{" "}
+          products
+        </h1>
+        <FeaturedNav />
+        <div className="grid gap-4 grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-6">
+          {products.map((product: AllProduct) => (
+            <ProductCard key={product._id} product={product} variants="style-2" />
+          ))}
         </div>
-      </section>
-    );
-  } catch (error) {
-    console.error("Error:", error);
-    return <div>Error loading featured products</div>;
-  }
+
+        <div className="mt-7 flex justify-center w-full">
+          <Link
+            type="button"
+            href={`/shops/${featured || "gadgets"}`}
+            className="py-3 px-4 rounded-lg border bg-primary uppercase font-medium hover:bg-transparent border-primary transition-all duration-150"
+          >
+            View More
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default FeaturedProducts;

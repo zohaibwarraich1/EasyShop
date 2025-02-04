@@ -20,10 +20,11 @@ export async function GET(request: NextRequest) {
 
     // Populate product details
     const populatedItems = await Promise.all(
-      cart.items.map(async (item) => {
+      cart.items.map(async (item: any) => {
         const product = await Product.findOne({ originalId: item.product });
+        const itemObj = typeof item.toObject === 'function' ? item.toObject() : item;
         return {
-          ...item.toObject(),
+          ...itemObj,
           product: product ? {
             _id: product._id,
             originalId: product.originalId,
@@ -122,10 +123,11 @@ export async function POST(request: NextRequest) {
 
     // Populate product details for response
     const populatedItems = await Promise.all(
-      cart.items.map(async (item) => {
+      cart.items.map(async (item: any) => {
         const product = await Product.findOne({ originalId: item.product });
+        const itemObj = typeof item.toObject === 'function' ? item.toObject() : item;
         return {
-          ...item.toObject(),
+          ...itemObj,
           product: product ? {
             _id: product._id,
             originalId: product.originalId,

@@ -79,7 +79,7 @@ const SingleProduct = ({ product }: SingleProductProps) => {
               product={{
                 _id,
                 title,
-                image: image[0],
+                image: [image[0]],
                 price,
                 unit_of_measure,
                 shop_category,
@@ -88,11 +88,13 @@ const SingleProduct = ({ product }: SingleProductProps) => {
 
             <AddToCartBtnWrapper
               btnStyle="withoutCounter"
-              cartItem={{
+              product={{
                 _id,
                 title,
-                image: image[0],
+                description: product.description || "",
                 price,
+                categories: product.categories || [],
+                image,
                 unit_of_measure,
                 shop_category,
               }}

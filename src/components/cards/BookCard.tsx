@@ -12,6 +12,10 @@ const BookCard = ({
   image,
   unit_of_measure,
   shop_category,
+  description,
+  categories,
+  rating,
+  amount,
 }: BooksProduct) => {
   return (
     <div className="book-card bg-secondary p-4 rounded-lg hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
@@ -47,11 +51,17 @@ const BookCard = ({
         </p>
 
         <AddToCartBtnWrapper
-          cartItem={{
+          product={{
             _id,
             title,
-            image: image[0],
+            description: description || "",  
+            image,
             price,
+            oldPrice,
+            authors,
+            categories: categories || [],  
+            rating: rating || 0,      
+            amount: amount || 1,      
             unit_of_measure,
             shop_category,
           }}

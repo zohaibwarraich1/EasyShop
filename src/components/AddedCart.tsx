@@ -189,11 +189,11 @@ const AddedCart = () => {
                           >
                             <div className="flex gap-3 w-full">
                               <Image
-                                src={c.image}
+                                src={c.image[0] || '/placeholder.jpg'}
                                 width={70}
                                 height={70}
                                 alt={c.title}
-                                className="rounded-lg border"
+                                className="rounded-lg object-cover"
                               />
                               <div className="flex-1 flex justify-between gap-4 items-center">
                                 <div className="h-full">

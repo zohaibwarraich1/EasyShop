@@ -6,6 +6,7 @@ import React, {
   Suspense,
   useEffect,
   useState,
+  useCallback,
 } from "react";
 import { Input } from "./ui/input";
 import {
@@ -56,23 +57,19 @@ const SearchBarForm = ({
     }
   };
 
-  const handleSelectShop = (shop?: string) => {
-    const activeShop = shops.find((s) => pathname?.includes(s.title));
-    if (activeShop && !shop) {
-      setSelectedShop(activeShop.title);
-    } else if (shop) {
-      router.push(`/shops/${shop}`);
+  const handleSelectShop = useCallback((shop?: string) => {
+    if (shop) {
       setSelectedShop(shop);
-    } else {
-      setSelectedShop(undefined);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    handleSelectShop();
+    handleSelectShop(selectedShop);
+  }, [selectedShop, handleSelectShop]);
 
-    return () => {};
-  }, [pathname]);
+  useEffect(() => {
+    handleSelectShop(undefined);
+  }, [pathname, handleSelectShop]);
 
   return (
     <form

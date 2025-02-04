@@ -14,15 +14,17 @@ import { useEffect, useState } from "react";
 
 type PaginationProps = {
   totalCount: number;
+  currentPage?: number;
+  totalPages?: number;
 };
 
-const Paginations = ({ totalCount }: PaginationProps) => {
+const Paginations = ({ totalCount, currentPage: initialPage, totalPages: propsTotalPages }: PaginationProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [pageCount, setPageCount] = useState(1);
+  const [pageCount, setPageCount] = useState(initialPage || 1);
   const [endIndx, setEndIndx] = useState(3);
   const [startIndx, setStartIndx] = useState(0);
-  const pageNumber = Math.ceil(totalCount / 20);
+  const pageNumber = propsTotalPages || Math.ceil(totalCount / 20);
   const pageBtns = 3;
   const pages = [];
 
@@ -42,8 +44,7 @@ const Paginations = ({ totalCount }: PaginationProps) => {
 
   useEffect(() => {
     const currentPage = Number(searchParams.get("page"));
-
-    setPageCount(currentPage || 1);
+    setPageCount(currentPage || initialPage || 1);
 
     if (currentPage) {
       if (currentPage >= pageBtns) {
@@ -51,25 +52,9 @@ const Paginations = ({ totalCount }: PaginationProps) => {
       } else {
         setEndIndx(pageBtns);
       }
-
-      if (currentPage > 2) {
-        currentPage === pages.length
-          ? setStartIndx(currentPage - pageBtns)
-          : setStartIndx(currentPage - 2);
-      } else {
-        setStartIndx(0);
-      }
-    } else {
-      setStartIndx(0);
-      setEndIndx(pageBtns);
+      setStartIndx(currentPage - 1);
     }
-  }, [searchParams, pages.length]);
-
-  const selectPage = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(page));
-    router.push(`?${params.toString()}`);
-  };
+  }, [searchParams, initialPage]);
 
   return (
     pageNumber > 1 && (
@@ -92,7 +77,7 @@ const Paginations = ({ totalCount }: PaginationProps) => {
             <PaginationItem key={num}>
               <PaginationLink
                 isActive={num === pageCount}
-                onClick={() => selectPage(num)}
+                onClick={() => handlePageCount(num - pageCount)}
                 className="cursor-pointer select-none"
               >
                 {num}

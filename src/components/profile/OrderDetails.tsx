@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Order } from "@/types";
+import { Order } from "@/types/order";
+import Image from "next/image";
 
-const item = {
+const itemAnimation = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -31,7 +32,7 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
   };
 
   return (
-    <motion.div variants={item} key={order._id} className="order-details mt-10">
+    <motion.div variants={itemAnimation} key={order._id} className="order-details mt-10">
       <h1 className="font-medium text-lg md:text-2xl">
         Order #{order._id}
       </h1>
@@ -88,19 +89,21 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
           {order.items.map((item) => (
             <motion.div
               key={item.product?._id || `order-item-${item._id}`}
-              variants={item}
+              variants={itemAnimation}
               className="flex items-center gap-4 p-3 bg-accent rounded-lg"
             >
               <div className="h-16 w-16 flex-shrink-0 relative">
-                <img
-                  src={!imageError[item.product?._id] ? (item.product?.image || '/placeholder.jpg') : '/placeholder.jpg'}
+                <Image
+                  src={item.product?.images?.[0] || item.product?.image || '/placeholder.jpg'}
                   alt={item.product?.title || 'Product'}
-                  className="h-full w-full object-cover rounded-md"
+                  width={80}
+                  height={80}
+                  className="rounded-lg object-cover"
                   onError={() => setImageError(prev => ({ ...prev, [item.product?._id]: true }))}
                 />
               </div>
               <div className="flex-grow">
-                <h5 className="font-medium">{item.product?.title || 'Product Unavailable'}</h5>
+                <h5 className="font-medium">{item.product?.name || 'Product Unavailable'}</h5>
                 <p className="text-sm text-muted-foreground">
                   ${(item.price || 0).toFixed(2)} x {item.quantity}
                 </p>

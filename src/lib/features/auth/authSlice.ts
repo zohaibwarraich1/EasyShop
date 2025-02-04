@@ -33,9 +33,13 @@ export const authSlice = createSlice({
       state.currentUser = null;
     },
 
-    setCurrentUser: (state, action: PayloadAction<User>) => {
+    setCurrentUser: (state, action: PayloadAction<User | null>) => {
       state.currentUser = action.payload;
-      localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
+      if (action.payload) {
+        localStorage.setItem("currentUser", JSON.stringify(action.payload));
+      } else {
+        localStorage.removeItem("currentUser");
+      }
     },
   },
 });

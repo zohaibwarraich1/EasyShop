@@ -3,6 +3,7 @@ import layoutSettings from "@/lib/layoutSettings";
 import NoProductFound from "./NoProductFound";
 import Paginations from "./Paginations";
 import ProductCard from "./cards/ProductCard";
+import type { AllProduct } from "@/types/product";
 
 type CategoryPageProps = {
   searchParams: SearchParamsType;
@@ -29,7 +30,7 @@ const ProductGrid = async ({ params, searchParams }: CategoryPageProps) => {
     };
 
     const res = await fetchData.get('/products', queryParams);
-    const products = res.data?.products || [];
+    const products = (res.data?.products || []) as AllProduct[];
     const totalCount = res.data?.total || 0;
     const settings = layoutSettings?.[shop] || { productCardVariants: 'style-1' };
 
@@ -49,6 +50,7 @@ const ProductGrid = async ({ params, searchParams }: CategoryPageProps) => {
           ))}
         </div>
         <Paginations
+          totalCount={totalCount}
           currentPage={Number(queryParams.page)}
           totalPages={Math.ceil(totalCount / 10)}
         />

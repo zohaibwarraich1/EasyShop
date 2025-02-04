@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from "next/image";
 
 interface OrderItem {
   product: {
@@ -108,10 +109,12 @@ export default function OrdersPage() {
             <div className="space-y-4">
               {order.items.map((item, index) => (
                 <div key={index} className="flex items-center space-x-4">
-                  <img
+                  <Image
                     src={item.product.image}
                     alt={item.product.title}
-                    className="w-16 h-16 object-cover rounded"
+                    width={80}
+                    height={80}
+                    className="rounded-lg object-cover"
                   />
                   <div className="flex-1">
                     <p className="font-medium">{item.product.title}</p>

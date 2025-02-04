@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import Image from "next/image";
 import {
@@ -27,22 +27,19 @@ const ShopSelect = () => {
     icon: "",
   });
 
-  const handleSelectShop = (shop?: string) => {
-    const activeShop = shops.find((s) => pathname?.includes(s.title));
-    if (activeShop && !shop) {
-      setSelectedShop(activeShop);
-    } else if (shop) {
+  const handleSelectShop = useCallback((shop?: string) => {
+    if (shop) {
+      const foundShop = shops.find((s) => s.title === shop);
+      setSelectedShop(foundShop || { title: "Select Shop", icon: "" });
       router.push(`/shops/${shop}`);
-    } else {
-      return;
     }
-  };
+  }, [router]);
 
   useEffect(() => {
-    handleSelectShop();
-
-    return () => {};
-  }, [pathname]);
+    if (selectedShop) {
+      handleSelectShop(selectedShop.title);
+    }
+  }, [selectedShop, handleSelectShop]);
 
   return (
     <DropdownMenu modal={false}>

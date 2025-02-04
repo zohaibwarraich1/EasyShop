@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Variants, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Order } from "@/types/order";
 
 const item: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -23,32 +24,6 @@ const item: Variants = {
     opacity: 0,
     x: "100%",
   },
-};
-
-export type Order = {
-  _id: string;
-  status: string;
-  createdAt: string;
-  total: number;
-  shippingAddress: {
-    fullName: string;
-    address: string;
-    city: string;
-    postalCode: string;
-    country: string;
-  };
-  paymentMethod: string;
-  paymentStatus: string;
-  items: {
-    product: {
-      _id: string;
-      title: string;
-      price: number;
-      image: string;
-    };
-    quantity: number;
-    price: number;
-  }[];
 };
 
 const Orders = () => {

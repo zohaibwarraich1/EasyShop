@@ -68,14 +68,15 @@ const CardTwo = ({
             product={{
               _id,
               title,
+              description: "",
               image,
               price,
-              unit_of_measure,
               oldPrice,
-              shop_category,
+              categories: [],
+              rating: 0,
               amount: 1,
-              selectedColor: null,
-              selectedSize: null,
+              unit_of_measure,
+              shop_category,
             }}
           />
         </div>

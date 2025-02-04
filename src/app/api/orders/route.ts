@@ -25,10 +25,11 @@ export async function GET(request: NextRequest) {
     const populatedOrders = await Promise.all(
       orders.map(async (order) => {
         const populatedItems = await Promise.all(
-          order.items.map(async (item) => {
+          order.items.map(async (item: any) => {
             const product = await Product.findOne({ originalId: item.product });
+            const itemObj = typeof item.toObject === 'function' ? item.toObject() : item;
             return {
-              ...item.toObject(),
+              ...itemObj,
               product: product ? {
                 _id: product._id,
                 title: product.title,
@@ -59,6 +60,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
+interface OrderItemInput {
+  productId: string;
+  quantity: number;
+  price: number;
+}
+
 // Create new order from cart
 export async function POST(request: NextRequest) {
   try {
@@ -68,9 +75,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { shippingAddress, billingAddress, paymentMethod, items, total } = body;
     
-    if (!items || items.length === 0) {
+    if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
-        { error: 'No items provided' },
+        { error: 'Invalid order items' },
         { status: 400 }
       );
     }
@@ -103,7 +110,7 @@ export async function POST(request: NextRequest) {
       // Create order with mapped data
       order = await Order.create({
         user: auth.userId,
-        items: items.map(item => ({
+        items: items.map((item: OrderItemInput) => ({
           product: item.productId,
           quantity: item.quantity,
           price: item.price
@@ -132,15 +139,17 @@ export async function POST(request: NextRequest) {
     
     // Populate product details
     const populatedItems = await Promise.all(
-      order.items.map(async (item) => {
+      order.items.map(async (item: any) => {
         const product = await Product.findOne({ originalId: item.product });
+        const itemObj = typeof item.toObject === 'function' ? item.toObject() : item;
         return {
-          ...item.toObject(),
+          ...itemObj,
           product: product ? {
             _id: product._id,
             title: product.title,
             price: product.price,
-            image: product.image
+            image: product.image,
+            originalId: product.originalId
           } : null
         };
       })

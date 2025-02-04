@@ -1,157 +1,266 @@
-# EasyShop - Modern E-commerce Platform
-[![GitHub Profile](https://img.shields.io/badge/GitHub-iemafzalhassan-blue?logo=github&style=flat)](https://github.com/iemafzalhassan)
-![Docker Image](https://img.shields.io/github/forks/iemafzalhassan/easyshop)
-[![Stars](https://img.shields.io/github/stars/iemafzalhassan/easyshop)](https://github.com/iemafzalhassan/easyshop)
-![GitHub last commit](https://img.shields.io/github/last-commit/iemafzalhassan/easyshop?color=red)
+# 🛍️ EasyShop - Modern E-commerce Platform
 
-<p align="center">
-  <img src="public/logo.svg" alt="EasyShop Logo" width="200"/>
-</p>
+[![Next.js](https://img.shields.io/badge/Next.js-14.1.0-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-8.1.1-green?style=flat-square&logo=mongodb)](https://www.mongodb.com/)
+[![Redux](https://img.shields.io/badge/Redux-2.2.1-purple?style=flat-square&logo=redux)](https://redux.js.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A modern e-commerce platform built with Next.js 14, featuring server-side rendering, real-time updates, and a seamless shopping experience.
+EasyShop is a modern, full-stack e-commerce platform built with Next.js 14, TypeScript, and MongoDB. It features a beautiful UI with Tailwind CSS, secure authentication, real-time cart updates, and a seamless shopping experience.
 
-## 🚀 Quick Start Guide
+## ✨ Features
 
-Hi there! 👋 Let's get EasyShop running on your computer. Don't worry if you're new to coding - we'll go through this step by step!
+- 🎨 Modern and responsive UI with dark mode support
+- 🔐 Secure JWT-based authentication
+- 🛒 Real-time cart management with Redux
+- 📱 Mobile-first design approach
+- 🔍 Advanced product search and filtering
+- 💳 Secure checkout process
+- 📦 Multiple product categories
+- 👤 User profiles and order history
+- 🌙 Dark/Light theme support
 
-### 1. First Things First - What You Need
+## 🏗️ Architecture
 
-Before we start, make sure you have these programs installed on your computer:
+EasyShop follows a three-tier architecture pattern:
 
-- **Node.js** (Version 18 or newer)
-  - To check if you have it: Open terminal/command prompt and type `node -v`
-  - If not installed: Download from [Node.js website](https://nodejs.org)
-  - Pick the "LTS" version - it's the most stable one!
+### 1. Presentation Tier (Frontend)
+- Next.js React Components
+- Redux for State Management
+- Tailwind CSS for Styling
+- Client-side Routing
+- Responsive UI Components
 
-- **MongoDB** (Your database)
-  - To check: Type `mongod --version` in terminal
-  - If not installed:
-    1. Download from [MongoDB website](https://www.mongodb.com/try/download/community)
-    2. Follow the installation wizard
-    3. For Windows: MongoDB comes with Compass (a nice visual tool) automatically
-    4. For Mac: You might want to install MongoDB Compass separately
+### 2. Application Tier (Backend)
+- Next.js API Routes
+- Business Logic
+- Authentication & Authorization
+- Request Validation
+- Error Handling
+- Data Processing
 
-### 2. Getting the Code
+### 3. Data Tier (Database)
+- MongoDB Database
+- Mongoose ODM
+- Data Models
+- CRUD Operations
+- Data Validation
 
-1. **Download the Project**
-   ```bash
-   # Open terminal and run:
-   git clone https://github.com/iemafzalhassan/easyshop.git
-   cd easyshop
-   ```
+```mermaid
+flowchart TD
+    %% Presentation Tier
+    subgraph PT[Presentation Tier]
+        direction TB
+        UI[React Components]
+        STORE[Redux Store]
+        CLIENT[API Clients]
+        UI -->|User Actions| STORE
+        STORE -->|State Updates| CLIENT
+    end
 
-2. **Install Project Tools**
-   ```bash
-   # This might take a few minutes
-   npm install
-   ```
+    %% Application Tier
+    subgraph AT[Application Tier]
+        direction TB
+        API[Next.js API Routes]
+        BL[Business Logic]
+        AUTH[Auth Middleware]
+        CLIENT -->|HTTP Requests| API
+        API -->|Process| BL
+        BL -->|Validate| AUTH
+    end
 
-### 3. Setting Up Your Secret Settings (.env)
+    %% Data Tier
+    subgraph DT[Data Tier]
+        direction TB
+        ODM[Mongoose ODM]
+        DB[(MongoDB)]
+        AUTH -->|Query| ODM
+        ODM -->|CRUD| DB
+    end
 
-1. Create a new file called `.env` in the main project folder
-2. Copy this into your `.env` file:
-   ```env
-   # Database
-   MONGODB_URI=mongodb://localhost:27017/easyshop
+    %% Styling
+    style PT fill:#e1f5fe,stroke:#01579b
+    style AT fill:#e3f2fd,stroke:#0277bd
+    style DT fill:#f3e5f5,stroke:#4a148c
+    style DB fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+```
 
-   # Authentication
-   JWT_SECRET=your-super-secret-key-change-this
-   
-   # App Settings
-   NEXT_PUBLIC_API_URL=http://localhost:3000
-   NODE_ENV=development
-   ```
+### Key Features of the Architecture
+- **Separation of Concerns**: Each tier has its specific responsibilities
+- **Scalability**: Independent scaling of each tier
+- **Maintainability**: Modular code organization
+- **Security**: API routes handle authentication and data validation
+- **Performance**: Server-side rendering and static generation
+- **Real-time Updates**: Redux for state management
 
-### 4. Setting Up the Database
+### Data Flow
+1. User interacts with React components
+2. Actions are dispatched to Redux store
+3. API clients make requests to Next.js API routes
+4. API routes process requests through middleware
+5. Business logic handles data operations
+6. Mongoose ODM interacts with MongoDB
+7. Response flows back through the tiers
 
-1. **Start MongoDB**
-   - Windows: MongoDB should be running as a service
-   - Mac/Linux:
-     ```bash
-     # In a new terminal
-     mongod
-     ```
+## 🚀 Getting Started
 
-2. **Load Sample Data (Optional)**
-   ```bash
-   # This will add some example products and categories
-   npm run migrate
-   ```
+### Prerequisites
 
-### 5. Start the Project! 🎉
+> [!NOTE]
+> Make sure you have the following installed:
+> - Node.js (v18 or higher)
+> - npm (v9 or higher)
+> - MongoDB (v7 or higher)
 
+### Installation Steps
+
+1. Clone the repository
 ```bash
-# Run this in your terminal
+git clone https://github.com/iemafzalhassan/EasyShop.git
+cd EasyShop
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Set up environment variables
+```bash
+cp .env.example .env.local
+```
+
+> [!IMPORTANT]
+> Create a `.env.local` file in the root directory with the following configuration:
+> ```env
+> # Database Configuration
+> MONGODB_URI=mongodb://localhost:27017/easyshop
+> 
+> # Next.js Configuration
+> NEXTAUTH_URL=http://localhost:3000
+> NEXT_PUBLIC_API_URL=http://localhost:3000/api
+> 
+> # Authentication
+> JWT_SECRET=your-secure-jwt-secret-key
+> ```
+> 
+> **Note**: Replace `your-secure-jwt-secret-key` with a secure secret key for JWT token generation. 
+> You can generate one using [JWT Builder Tool](http://jwtbuilder.jamiekurtz.com/) or any other secure JWT generator.
+
+### Running the Application
+
+Follow these commands in sequence:
+
+1. First, run the database migrations to set up your database with initial data:
+```bash
+npm run migrate
+```
+
+2. For development:
+```bash
+# Start the development server with hot reload
 npm run dev
 ```
 
-Now open your web browser and go to: `http://localhost:3000`
+3. For production:
+```bash
+# Build the application
+npm run build
 
-You should see the EasyShop homepage! 🎊
+# Start the production server
+npm start
+```
 
-## 🛠️ Common Problems & Solutions
+> [!NOTE]
+> - Development server runs on: http://localhost:3000
+> - The migrate command only needs to be run once when setting up the project
+> - Always run `npm run build` before `npm start` in production
 
-### Can't Start the Project?
-- Make sure MongoDB is running
-- Check if port 3000 is free (close other apps that might use it)
-- Try `npm install` again
+## 🧪 Testing
 
-### Database Connection Issues?
-1. Open MongoDB Compass
-2. Click "New Connection"
-3. Paste: `mongodb://localhost:27017`
-4. Click "Connect"
-5. You should see "easyshop" database
+> [!NOTE]
+> Coming soon: Unit tests and E2E tests with Jest and Cypress
 
-### Login Not Working?
-1. Clear your browser cookies
-2. Make sure your `.env` file has the correct settings
-3. Try registering a new account
+## 🔧 Troubleshooting
 
-## 📱 Features
+### Build Errors
 
-- 🌙 Dark/Light Mode
-- 🛍️ Shopping Cart
-- 🔍 Product Search
-- 👤 User Profiles
-- 📱 Mobile Friendly
-- 🛒 Order Management
-- ❤️ Wishlist
-- 🔒 Secure Authentication
+1. **Dynamic Server Usage Warnings**
+```bash
+Error: Dynamic server usage: Page couldn't be rendered statically
+```
+**Solution**: This is expected behavior for dynamic routes and API endpoints. These warnings appear during build but won't affect the application's functionality.
 
-## 🏗️ Project Structure
+2. **MongoDB Connection Issues**
+```bash
+Error: MongoDB connection failed
+```
+**Solution**: 
+- Ensure MongoDB is running locally
+- Check if your MongoDB connection string is correct in `.env.local`
+- Try connecting to MongoDB using MongoDB Compass with the same connection string
+
+### Development Tips
+- Clear `.next` folder if you encounter strange build issues: `rm -rf .next`
+- Run `npm install` after pulling new changes
+- Make sure all environment variables are properly set
+- Use Node.js version 18 or higher
+
+## 📦 Project Structure
 
 ```
 easyshop/
 ├── src/
-│   ├── app/           # Pages and API routes
-│   ├── components/    # Reusable UI components
-│   ├── lib/          # Utilities and configurations
-│   └── styles/       # CSS and styling
-├── public/           # Static files (images, etc.)
-└── package.json      # Project dependencies
+│   ├── app/              # Next.js App Router pages
+│   ├── components/       # Reusable React components
+│   ├── lib/             # Utilities and configurations
+│   │   ├── auth/        # Authentication logic
+│   │   ├── db/          # Database configuration
+│   │   └── features/    # Redux slices
+│   ├── types/           # TypeScript type definitions
+│   └── styles/          # Global styles and Tailwind config
+├── public/              # Static assets
+└── scripts/            # Database migration scripts
 ```
 
-## 🤝 Need Help?
+## 🤝 Contributing
 
-- 📖 Check our [Issues](https://github.com/iemafzalhassan/easyshop/issues) page
-- 💬 Ask in our [Discussions](https://github.com/iemafzalhassan/easyshop/discussions)
-- 📧 Contact: [support@easyshop.com](mailto:support@easyshop.com)
+We welcome contributions! Please follow these steps:
 
-## 🌟 Contributing
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature/amazing-feature`
+3. Make your changes
+4. Run tests: `npm test` (coming soon)
+5. Commit your changes: `git commit -m 'Add amazing feature'`
+6. Push to the branch: `git push origin feature/amazing-feature`
+7. Open a Pull Request
 
-We love help! Here's how you can contribute:
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+> [!TIP]
+> Check our [Contributing Guidelines](CONTRIBUTING.md) for more details
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Radix UI](https://www.radix-ui.com/)
+
+## 📫 Contact
+
+For questions or feedback, please open an issue or contact the maintainers:
+
+- Maintainer - [@Md. Afzal hassan Ehsani](https://github.com/iemafzalhassan)
+- Project Link: [https://github.com/iemafzalhassan/easyshop](https://github.com/iemafzalhassan/easyshop)
 
 ---
 
-Made with <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Heart%20on%20Fire.png" alt="Heart on Fire" width="25" height="25" /> by [iemafzalhassan](https://github.com/iemafzalhassan)
+<div align="center">
+  <p>
+    Made with ❤️ by <a href="https://iemafzalhassan.tech" target="_blank"><b>Md. Afzal Hassan Ehsani</b></a>
+  </p>
+</div>

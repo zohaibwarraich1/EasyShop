@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/lib/models/product';
 import { requireAuth } from '@/lib/auth/utils';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     await dbConnect();
     
@@ -78,7 +78,7 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const auth = await requireAuth(request);
     if (auth.role !== 'admin') {

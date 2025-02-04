@@ -9,6 +9,7 @@ const JWT_SECRET = new TextEncoder().encode(
 export interface JWTPayload {
   userId: string;
   role: string;
+  [key: string]: string;
 }
 
 export const generateToken = async (payload: JWTPayload): Promise<string> => {

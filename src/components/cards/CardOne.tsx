@@ -52,11 +52,16 @@ const CardOne = ({
 
           <div className="mt-3">
             <AddToCartBtnWrapper
-              cartItem={{
+              product={{
                 _id,
                 title,
-                image: image[0],
+                description: "",
+                image,
                 price,
+                oldPrice,
+                categories: [],
+                rating: 0,
+                amount: 1,
                 unit_of_measure,
                 shop_category,
               }}

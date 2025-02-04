@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Order } from "@/app/profile/orders/Orders";
+import { Order } from "@/types/order";
 import Image from "next/image";
 import Link from "next/link";
 

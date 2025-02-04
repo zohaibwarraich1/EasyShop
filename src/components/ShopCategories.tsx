@@ -163,7 +163,7 @@ const ShopCategories = () => {
                         width={200}
                         height={200}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-cover"
                       />
                     </div>
                     <h3 className="capitalize text-lg mt-1">{item.title}</h3>
@@ -199,7 +199,7 @@ const ShopCategories = () => {
                         width={200}
                         height={200}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-cover"
                       />
                     </div>
                     <h3 className="capitalize text-lg mt-1">{item.title}</h3>
@@ -235,7 +235,7 @@ const ShopCategories = () => {
                         width={200}
                         height={200}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-cover"
                       />
                     </div>
                     <h3 className="capitalize text-lg mt-1">{item.title}</h3>
@@ -272,7 +272,7 @@ const ShopCategories = () => {
                         width={200}
                         height={200}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-cover"
                       />
                     </div>
                     <h3 className="capitalize text-lg mt-1 transition-colors duration-300">
@@ -311,7 +311,7 @@ const ShopCategories = () => {
                         width={200}
                         height={200}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-cover"
                       />
                     </div>
                     <h3 className="capitalize text-lg mt-1">{item.title}</h3>
@@ -348,7 +348,7 @@ const ShopCategories = () => {
                         width={200}
                         height={200}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-cover"
                       />
                     </div>
                     <h3 className="capitalize text-lg mt-1">{item.title}</h3>
