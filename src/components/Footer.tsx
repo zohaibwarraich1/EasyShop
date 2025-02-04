@@ -1,13 +1,13 @@
 import Logo from "@/assets/Logo";
 import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary py-24">
+    <footer className="bg-secondary py-6">
       <div className="container">
         <div className="flex flex-col items-center">
           <h2 className="text-3xl font-semibold">Subscribe now</h2>
@@ -35,31 +35,52 @@ const Footer = () => {
             <div className="dark:text-gray-400">
               <p className="mt-6">Bihar, India</p>
 
-              <a href="mailto:demo@gmail.com" className="block mt-3">
-                demo@gmail.com
+              <a href="mailto:iemafzalhassan@gmail.com" className="block mt-3">
+                iemafzalhassan@gmail.com
               </a>
-              <a href="tel:+919999999999" className="block mt-1">
-                +91 9999999999
+              <a href="tel:+91 9400344657" className="block mt-1">
+                +91 9400344657
               </a>
 
               <div className="flex flex-wrap gap-3 items-center mt-4">
                 <Button
                   variant="outline"
                   className="rounded-full h-10 w-10 hover:bg-primary hover:text-white p-0"
+                  asChild
                 >
-                  <FaFacebookF />
+                  <a
+                    href="https://github.com/iemafzalhassan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaGithub />
+                  </a>
                 </Button>
                 <Button
                   variant="outline"
                   className="rounded-full h-10 w-10 hover:bg-primary hover:text-white p-0"
+                  asChild
                 >
-                  <FaTwitter />
+                  <a
+                    href="https://twitter.com/iemafzalhassan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaTwitter />
+                  </a>
                 </Button>
                 <Button
                   variant="outline"
                   className="rounded-full h-10 w-10 hover:bg-primary hover:text-white p-0"
+                  asChild
                 >
-                  <FaInstagram />
+                  <a
+                    href="https://www.linkedin.com/in/iemafzalhassan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaLinkedinIn />
+                  </a>
                 </Button>
               </div>
             </div>
@@ -169,6 +190,40 @@ const Footer = () => {
                 </Link>
               </li>
             </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4 pt-8 border-t border-gray-200 dark:border-gray-700">
+        <div className="container text-center text-sm text-gray-500 dark:text-gray-400">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            Made with{" "}
+            <span className="inline-block animate-heartbeat">
+              <svg
+                className="w-5 h-5 text-red-500 hover:text-primary transition-all duration-500"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </span>{" "}
+            by{" "}
+            <a
+              href="https://iemafzalhassan.tech"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium hover:text-primary transition-all duration-300 hover:underline decoration-primary decoration-2 underline-offset-4"
+            >
+              Md. Afzal Hassan Ehsani
+            </a>
+          </div>
+          
+          <div className="flex items-center justify-center gap-2 text-xs">
+            <span className="font-medium">{"\u00A9"}</span> {new Date().getFullYear()} All Rights Reserved •{" "}
+            <span className="text-gray-600 dark:text-gray-300">
+              Released under MIT License for Educational Purposes
+            </span>
           </div>
         </div>
       </div>

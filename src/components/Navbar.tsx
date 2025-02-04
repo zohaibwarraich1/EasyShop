@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoChevronDownOutline } from "react-icons/io5";
+import { FaGithub } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import MobileMenu from "./MobileMenu";
 import Modal from "./Modal";
@@ -61,7 +62,6 @@ const Navbar = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
-  const [isRegisterTab, setIsRegisterTab] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   // from redux
@@ -159,64 +159,30 @@ const Navbar = () => {
             <div className="hidden lg:block">
               <ToggleTheme />
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="hidden md:flex items-center gap-2 hover:bg-primary hover:text-white"
+              asChild
+            >
+              <a
+                href="https://github.com/iemafzalhassan/EasyShop"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2"
+              >
+                <FaGithub className="text-lg" />
+                <span>Source Code</span>
+              </a>
+            </Button>
             {!isAuthenticated && (
-              <Button onClick={() => setIsOpen(!isOpen)}>Join</Button>
+              <Link href="/login">
+                <Button>Join</Button>
+              </Link>
             )}
           </div>
         </nav>
       </div>
-
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} className="max-w-md">
-        <div className="px-4 py-7 md:px-6">
-          {isRegisterTab ? (
-            <div className="signup">
-              <div className="flex text-center flex-col items-center">
-                <Logo />
-                <p className="my-3">
-                  By signing up, you agree to our{" "}
-                  <Link href={"/"} className="text-primary hover:underline">
-                    terms & policy
-                  </Link>
-                </p>
-              </div>
-
-              <SignupForm setIsOpen={setIsOpen} />
-
-              <div className="flex-1 h-0.5 bg-muted my-6"></div>
-              <p className="text-center">
-                Already have any account?{" "}
-                <button
-                  type="button"
-                  className="text-primary hover:underline"
-                  onClick={() => setIsRegisterTab(false)}
-                >
-                  Login
-                </button>
-              </p>
-            </div>
-          ) : (
-            <div className="login">
-              <div className="flex text-center flex-col items-center">
-                <Logo />
-                <p className="my-3">Login with your email & password</p>
-              </div>
-              <LoginForm setIsOpen={setIsOpen} />
-              <div className="flex-1 h-0.5 bg-muted my-6"></div>
-
-              <p className="text-center">
-                Don&apos;t have any account?{" "}
-                <button
-                  type="button"
-                  className="text-primary hover:underline"
-                  onClick={() => setIsRegisterTab(true)}
-                >
-                  Register
-                </button>
-              </p>
-            </div>
-          )}
-        </div>
-      </Modal>
 
       <MobileMenu isOpen={isMobileOpen} setIsOpen={setIsMobileOpen} />
 

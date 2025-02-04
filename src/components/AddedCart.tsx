@@ -73,23 +73,12 @@ const item: Variants = {
 const AddedCart = () => {
   const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { cartItems, isCartOpen } = useAppSelector((state) => state.cartSlice);
+  const { isAuthenticated } = useAppSelector((state) => state.authSlice);
   const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/auth/check');
-        setIsAuthenticated(response.ok);
-      } catch (error) {
-        console.error('Error checking auth status:', error);
-        setIsAuthenticated(false);
-      }
-    };
-
-    checkAuth();
     setIsClient(true);
   }, []);
 
@@ -100,17 +89,16 @@ const AddedCart = () => {
 
   const reversedItems = [...cartItems].reverse();
 
-  const handleCheckoutClick = (e: React.MouseEvent) => {
+  const handleCheckoutClick = async (e: React.MouseEvent) => {
     e.preventDefault();
-    dispatch(handleCartOpen());
     
-    if (!isAuthenticated) {
-      const returnUrl = '/checkout';
-      router.push(`/login?redirect=${encodeURIComponent(returnUrl)}`);
-      return;
+    if (isAuthenticated) {
+      router.push('/checkout');
+      dispatch(handleCartOpen());
+    } else {
+      router.push(`/login?redirect=${encodeURIComponent('/checkout')}`);
+      dispatch(handleCartOpen());
     }
-
-    router.push('/checkout');
   };
 
   return (

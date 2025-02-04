@@ -61,32 +61,30 @@ export function LoginForm({ setIsOpen }: LoginFormProps) {
       const res = await fetchData.post("/auth/login", values);
       await createCookies(res.data.token);
       dispatch(setCurrentUser(res.data.user as User));
+      dispatch(setAuthenticated(true));
       form.reset();
       setIsLoading(false);
       setIsOpen && setIsOpen(false);
-      dispatch(setAuthenticated(true));
+      
       toast({
         title: "Success",
         description: "You have successfully Logged in",
         variant: "success",
       });
 
-      // Handle redirection based on cart state and redirect parameter
+      // Handle redirection based on redirect parameter
       const redirectTo = searchParams.get('redirect');
-      if (redirectTo === '/checkout') {
-        // Only redirect to checkout if there are items in cart
-        if (cartItems.length > 0) {
-          router.replace('/checkout');
-        } else {
+      if (redirectTo) {
+        if (redirectTo === '/checkout' && cartItems.length === 0) {
           router.replace('/');
           toast({
             title: "Empty Cart",
             description: "Please add items to your cart before checking out",
             variant: "default",
           });
+        } else {
+          router.replace(redirectTo);
         }
-      } else if (redirectTo) {
-        router.replace(redirectTo);
       } else {
         router.replace('/');
       }
