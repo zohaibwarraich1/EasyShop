@@ -11,8 +11,7 @@ services:
     restart: always
 
   easyshop-app:
-    build: 
-      context: .
+    image: zohaibwarraich/easyshop-image:latest
     container_name: easyshop
     networks:
       - easyshop-network
