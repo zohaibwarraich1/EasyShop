@@ -17,8 +17,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh 'echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin'
-                    sh 'docker tag easyshop-image:latest zohaibwarraich/easyshop-image:latest'
-                    sh 'docker push zohaibwarraich/easyshop-image:latest'
+                    sh 'docker tag easyshop-image:latest $USERNAME/easyshop-image:latest'
+                    sh 'docker push $USERNAME/easyshop-image:latest'
                 }
                 echo 'Successfully Pushed!'
             }
